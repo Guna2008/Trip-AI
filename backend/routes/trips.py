@@ -15,19 +15,22 @@ router = APIRouter(
 
 @router.post("/plan", response_model=TripResponse)
 def create_trip(request: TripRequest,db: Session = Depends(get_db),current_user: User = Depends(get_current_user)):
-    generated_plan = generate_trip_plan(
+    try:
+      generated_plan = generate_trip_plan(
         request.destination,
         request.days,
         request.interests
-    )
-
+        )
+    except RuntimeError as error:
+        raise HTTPException(status_code=503,detail=str(error))
+  
     new_trip = Trip(
         destination=request.destination,
         days=request.days,
         interests=request.interests,
         generated_plan=generated_plan,
-        user_id=current_user.id
-    )
+        user_id=current_user.id 
+        )
 
     db.add(new_trip)
     db.commit()
