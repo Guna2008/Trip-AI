@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey
+from sqlalchemy import Column, Integer, String,ForeignKey,JSON
 from sqlalchemy.orm import relationship
 
 from .database import Base
@@ -22,7 +22,7 @@ class Trip(Base):
     destination = Column(String, nullable=False)
     days = Column(Integer, nullable=False)
     interests = Column(String, nullable=False)
-    generated_plan = Column(Text, nullable=False)
+    generated_plan = Column(JSON, nullable=False)
 
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
 

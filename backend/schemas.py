@@ -25,13 +25,24 @@ class TripRequest(BaseModel):
     days: int
     interests: str
 
+class DayPlan(BaseModel):
+    day:int
+    title: str
+    activities: list[str]
+    food: list[str]
+    tips: list[str]
+
+class GeneratePlan(BaseModel):
+    summary: str
+    days: list[DayPlan]    
+
 
 class TripResponse(BaseModel):
     id: int
     destination: str
     days: int
     interests: str
-    generated_plan: str
+    generated_plan: GeneratePlan
     user_id: int
 
     model_config = ConfigDict(from_attributes=True)
